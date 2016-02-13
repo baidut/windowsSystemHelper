@@ -1,0 +1,92 @@
+﻿<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<link rel="stylesheet" type="text/css" href="c.css" />
+</head>
+
+<body>
+<SCRIPT language=JavaScript>
+function Run(strPath) {
+exe.value=strPath;
+ try {
+  var objShell = new ActiveXObject("wscript.shell");
+  objShell.Run(strPath);
+  objShell = null;
+ }
+  catch (e){alert('找不到文件"'+strPath+'"(或它的组件之一)。请确定路径和文件名是否正确，而且所需的库文件均可用。')
+ }
+}
+
+function Exe(Path) {
+    Run('%SystemRoot%\\explorer.exe \"'+Path+'\"');
+}
+</SCRIPT>
+<input name=exe id='i1' type=text size=20 value="请输入要运行的程序："
+ondbclick="this.select()"
+/>
+
+<BUTTON class=button onclick="Run(exe.value)">确定
+</BUTTON><BUTTON class=button onclick="exe.value='';">重新输入</BUTTON>
+
+<fieldset>
+    <legend>Windows</legend>
+    <BUTTON class=button onclick="Run('notepad')">记事本</BUTTON>
+    <BUTTON class=button onclick="Run('mspaint')">画图板</BUTTON>
+    <BUTTON class=button onclick="Run('calc')">计算器</BUTTON>
+    <BUTTON class=button onclick="Run('cmd')">cmd</BUTTON>
+    <BUTTON class=button onclick="Run('write')">写字板</BUTTON>
+    <BUTTON class=button onclick="Exe('%windir%\\system32\\SnippingTool.exe')">截图</BUTTON>
+</fieldset>
+
+<fieldset>
+    <legend>Folders</legend>
+    <BUTTON class=button onclick="Run('explorer')">库</BUTTON>
+    <BUTTON class=button onclick="Run('%windir%')">%windir%</BUTTON>
+    <BUTTON class=button onclick="Run('%temp%')">%temp%</BUTTON>
+    <BUTTON class=button onclick="Run('Regedit')">Regedit</BUTTON>
+    <BUTTON class=button onclick="Run('Msconfig')">Msconfig</BUTTON>
+    <BUTTON class=button onclick="Exe('Everything\\Everything-1.2.1.371.exe')">Everything</BUTTON>
+</fieldset>
+
+<fieldset>
+    <legend>Editer</legend>
+    <BUTTON class=button onclick="Exe('notepad++\\unicode\\notepad++.exe')">notepad++</BUTTON>
+    <BUTTON class=button onclick="Exe('sublimetext\\sublime_text.exe')">sublimetext</BUTTON>
+</fieldset>
+
+<fieldset>
+    <legend>Browser</legend>
+    <BUTTON class=button onclick="Run('IEXPLORE.EXE')">IE</BUTTON>
+    <BUTTON class=button onclick="Exe('Comodo\\Dragon\\dragon.exe')">dragon</BUTTON>
+    <BUTTON class=button onclick="Exe('Comodo\\Icedragon\\icedragon.exe')">icedragon</BUTTON>
+    <BUTTON class=button onclick="Exe('fg\\fg742.exe')">fg</BUTTON>
+    <BUTTON class=button onclick="Exe('fg\\U1304.exe')">u</BUTTON>
+</fieldset>
+
+<fieldset>
+    <legend>Player</legend>
+    <BUTTON class=button onclick="Exe('PotPlayer\\PotPlayerMini.exe')">Potplayer</BUTTON>
+    <BUTTON class=button onclick="Exe('splayer\\splayer.exe')">splayer</BUTTON>
+    <BUTTON class=button onclick="Exe('MOREFUNTV\\MFTVMornitor.exe')">MoreFun</BUTTON>
+    <BUTTON class=button onclick="Exe('foobar\\foobar2000.exe')">foobar</BUTTON>
+</fieldset>
+
+<fieldset>
+    <legend>Download</legend>
+    <BUTTON class=button onclick="Exe('FileZilla FTP Client\\filezilla.exe')">FTP</BUTTON>
+    <BUTTON class=button onclick="Exe('uTorrent\\uTorrent.exe')">xxxx</BUTTON>
+</fieldset>
+
+<fieldset>
+    <legend>Config</legend>
+    <BUTTON class=button onclick="Run('c.css')">c.css</BUTTON>
+</fieldset>
+
+<fieldset>
+    <legend>Web</legend>
+    <button onclick="window.open('http://tool.oschina.net/codeformat/js')">代码格式化</button>
+</fieldset>
+</body>
+
