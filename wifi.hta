@@ -68,9 +68,15 @@
             // netsh wlan set hostednetwork ssid=PCT001_WIFI key=001001001
             // netsh wlan start hostednetwork
             // pause
-            Cmd("netsh","wlan set hostednetwork mode=allow");
-            Cmd("netsh",'wlan set hostednetwork ssid="'+ssid+'" key="'+key+'"');
-            Cmd("netsh","wlan start hostednetwork");
+            Run(
+              'cmd /K netsh wlan set hostednetwork mode=allow &' +
+              'netsh wlan set hostednetwork ssid="'+ssid+'" key="'+key+'" &'+
+              'netsh wlan start hostednetwork'
+            );
+            // or call bat %1 %2
+
+            // cmd /K str1 & str2 & str3
+            // see http://stackoverflow.com/questions/28437066/multiple-commands-in-command-prompt-using-vbscript
 
           } else {
             // alert('turn off wifi');
@@ -82,8 +88,10 @@
             // netsh wlan stop hostednetwork
             // netsh wlan set hostednetwork mode=disallow
             // pause
-            Cmd("netsh","wlan stop hostednetwork");
-            Cmd("netsh","wlan set hostednetwork mode=disallow");
+            Run(
+              'cmd /K netsh wlan stop hostednetwork &' +
+              'netsh wlan set hostednetwork mode=disallow'
+            );
           }
         });
       });

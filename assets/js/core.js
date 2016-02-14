@@ -9,7 +9,7 @@
  * ========================================================================
  */
 function Run(strPath) {
-exe.value=strPath;
+// exe.value=strPath;
  try {
   var objShell = new ActiveXObject("wscript.shell");
   objShell.Run(strPath);
