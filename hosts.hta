@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head id="header">
+
+    <title>PCT001-HOSTS</title>
+    <HTA:APPLICATION ID="oHTA"
+     APPLICATIONNAME="WIFI"
+     ICON="assets\graphics\wifi.ico"
+     SCROLL="no"
+     SINGLEINSTANCE="yes"
+    />
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    
+    <script src="assets/js/jquery.min.js"></script>
+
+    <link href="assets/css/common.css" rel="stylesheet">
+    <script src="assets/js/common.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        window.resizeTo(400,500);
+
+      });
+    </script>
+  </head>
+  <body>
+    <div class="container">
+
+      <!-- Main Content
+      ================================================== -->
+
+      <form class="form-horizontal">
+        <fieldset>
+          <legend>Hosts</legend>
+          <div class="form-group">
+            <label for="select" class="col-lg-2 control-label">
+              1 - 选择Hosts源/Selects <!-- <span class="badge">4</span> -->
+            </label>
+            <div class="col-lg-10">
+              <select class="form-control" id="select">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="select" class="col-lg-2 control-label">
+              2 - 使用或删除
+            </label>
+            <div class="col-lg-10 col-lg-offset-2">
+              <!-- reply -->
+              <button type="reset" class="btn btn-danger">
+                <!-- 取消回滚，可以选择历史备份以及上次备份 reply -->
+                <!-- <i class="fa fa-undo"> 回滚/revoke</i>  -->
+                <!-- 删除前需要确认 -->
+                <i class="fa fa-close"> 删除/delete</i>
+              </button>
+              <button type="submit" class="btn btn-primary">
+                <i class="fa fa-check"> 使用/update</i>
+              </button>
+
+              <button class="btn btn-default">
+                <i class="fa fa-plus"> 添加/add</i>
+              </button>
+
+              <button class="btn btn-default">
+                <i class="fa fa-plus"> 扫描/scan</i>
+              </button>
+            </div>
+          </div>
+
+          <hr/>
+
+          <div class="form-group">
+            <label for="select" class="col-lg-2 control-label">
+              系统文件/System hosts 
+            </label>
+            <div class="col-lg-10 col-lg-offset-2">
+              <div class="btn-group btn-group-justified">
+                <!-- open file -->
+                <button class="btn btn-default" onclick="Run('edit_hosts.bat')">
+                  <i class="fa fa-file-o"> 编辑/open</i>
+                </button>
+                <button type="reset" class="btn btn-default">
+                  <i class="fa fa-copy"> 备份/backup</i>
+                </button>
+                <button type="reset" class="btn btn-danger">
+                  <i class="fa fa-trash"> 清空/clean</i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="select" class="col-lg-2 control-label">
+              其他工具/Others 
+            </label>
+
+            <!-- 重置系列-重启网络，重启共享wifi，重启电脑，重置固定ip为自动获取 -->
+            <div class="col-lg-10 col-lg-offset-2">
+              <button class="btn btn-default" onclick="Run('cmd /K ipconfig /release \& ipconfig /renew')">
+                <i class="fa fa-refresh"> 重置IP/renew ip</i>
+              </button>
+              <button class="btn btn-default" onclick="Run('ipconfig /flushdns')">
+                <i class="fa fa-refresh"> 重置DNS/flush dns</i> <!-- 解决ieee掉线问题 -->
+              </button>
+            </div>
+          </div>
+          
+        </fieldset>
+      </form>
+
+    </div>
+</body>
+</html>

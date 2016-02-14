@@ -29,6 +29,6 @@ note path is about the file self rather than the hta file.
 @import url("bootstrap.min.css");
 @import url("bootstrap-switch.css");
 @import url("../icon/font-awesome/css/font-awesome.min.css");
-@import url("bootswatch.com/custom.min.css");
+/*@import url("bootswatch.com/custom.min.css");*/
 
 /* custom css goes here */
