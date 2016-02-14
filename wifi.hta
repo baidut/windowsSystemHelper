@@ -30,7 +30,63 @@
     <link rel="stylesheet" href="assets/css/bootswatch.com/custom.min.css">
     <script src="assets/js/core.js"></script>
     <script type="text/javascript">
-      window.resizeTo(300,290);
+      $(document).ready(function(){
+        window.resizeTo(300,290);
+
+        $("#eye").on('click', function(){
+          var eye = $('#eye-ico');
+          var key = $('input[name="key"]');
+          // var eye = document.getElementById("eye-ico");
+          if(eye.attr('class') == 'fa fa-eye-slash') {
+            // alert('open eye');
+            eye.attr('class', 'fa fa-eye');
+            key.attr('type', 'text');
+          } else {
+            // alert('close eye');
+            eye.attr('class', 'fa fa-eye-slash');
+            key.attr('type', 'password');
+          }
+        });
+
+        $('#wifi-checkbox').on('switchChange.bootstrapSwitch', function(event, state) {
+          if (state) {
+            // alert('turn on wifi');
+            ssid = document.forms["myForm"]["ssid"].value;
+            if (ssid == null || ssid == "") {
+                ssid = "PCT001-WIFI";
+                document.forms["myForm"]["ssid"].value = ssid;
+            }
+            key = document.forms["myForm"]["key"].value;
+            if (key == null || key == "") {
+                key = "001001001";
+                document.forms["myForm"]["key"].value = key;
+            }
+            document.forms["myForm"]["ssid"].disabled="true";
+            document.forms["myForm"]["key"].disabled="true";
+            // @echo off
+            // netsh wlan set hostednetwork mode=allow
+            // netsh wlan set hostednetwork ssid=PCT001_WIFI key=001001001
+            // netsh wlan start hostednetwork
+            // pause
+            Cmd("netsh","wlan set hostednetwork mode=allow");
+            Cmd("netsh",'wlan set hostednetwork ssid="'+ssid+'" key="'+key+'"');
+            Cmd("netsh","wlan start hostednetwork");
+
+          } else {
+            // alert('turn off wifi');
+            // delete document.forms["myForm"]["ssid"].disabled;
+            // delete document.forms["myForm"]["key"].disabled;
+            document.forms["myForm"]["ssid"].disabled = undefined;
+            document.forms["myForm"]["key"].disabled = undefined;
+            // @echo off
+            // netsh wlan stop hostednetwork
+            // netsh wlan set hostednetwork mode=disallow
+            // pause
+            Cmd("netsh","wlan stop hostednetwork");
+            Cmd("netsh","wlan set hostednetwork mode=disallow");
+          }
+        });
+      });
     // <link rel="stylesheet" href="assets/css/bootswatch.com/default/bootstrap.css" media="screen">
     // <link rel="icon" href="assets\graphics\wifi.ico"  type="image/x-icon"/>
     // <link rel="shortcut icon" href="http://sstatic.net/stackoverflow/img/favicon.ico">
@@ -41,37 +97,31 @@
 
       <!-- Main Content
       ================================================== -->
-      <form class="navbar-form navbar-left" role="search">
+      <form class="navbar-form navbar-left" role="search" name="myForm">
         <div class="input-group">
           <span class="input-group-addon" id="basic-addon1">
             <i class="fa fa-wifi"></i>
           </span>
-          <input type="text" class="form-control" placeholder="名称/Name" aria-describedby="basic-addon1">
+          <input type="text" class="form-control" placeholder="名称/Name" aria-describedby="basic-addon1" name="ssid">
         </div>
 
         <div class="input-group">
           <span class="input-group-addon" id="basic-addon2">
             <i class="fa fa-key"></i>
           </span>
-          <input type="password" class="form-control" placeholder="密码/Password" aria-describedby="basic-addon2">
+          <input type="password" class="form-control" placeholder="密码/Password" aria-describedby="basic-addon2" name="key">
           <span class="input-group-btn">
-            <button class="btn btn-default" type="button">
-              <i class="fa fa-eye-slash"></i>
+            <button class="btn btn-default" type="button" id="eye">
+              <i class="fa fa-eye-slash" name='ico' id='eye-ico'></i>
             </button>
           </span>
         </div>
 
         <hr />
 
-        <input type="checkbox" name="my-checkbox">
+        <input type="checkbox" name="my-checkbox" id="wifi-checkbox">
       </form>
 
     </div>
 </body>
 </html>
-
-
-
-
-
-
