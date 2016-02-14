@@ -22,6 +22,8 @@
 
 see http://stackoverflow.com/questions/147500/is-it-possible-to-include-one-css-file-in-another
 note path is about the file self rather than the hta file.
+
+<link rel="stylesheet" href="assets/css/bootswatch.com/default/bootstrap.css" media="screen">
 */
 
 /* includes */

@@ -23,10 +23,19 @@
 :: reg add "HKLM\SOFTWARE\Classes\.htaccess" /v PerceivedType /d text
 :: reg add "HKLM\SOFTWARE\Classes\.yml" /v PerceivedType /d text
 :: reg add "HKLM\SOFTWARE\Classes\.bib" /v PerceivedType /d text
-::reg add "HKLM\SOFTWARE\Classes\.rdp" /v PerceivedType /d text
+:: reg add "HKLM\SOFTWARE\Classes\.rdp" /v PerceivedType /d text
+
+:: matlab code
 :: reg add "HKLM\SOFTWARE\Classes\.m" /v PerceivedType /d text
 :: cpp c h  ok
 
+:: 增加一项子项目(Default) REG_SZ {eec97550-47a9-11cf-b952-00aa0051fe20}
 
+:: 修改了Default后虽然可以预览，但是不能运行了
+:: 默认为 Content Type:application/hta PerceivedType:text (Default):htafile
+
+:: reg add "HKLM\SOFTWARE\Classes\.hta" /v PerceivedType /d text
+:: reg add "HKLM\SOFTWARE\Classes\.hta" /v "Content Type" /d text/html
+:: 不可用，会新建一个(Default) reg add "HKLM\SOFTWARE\Classes\.hta" /v "(Default)" /d htmlfile
 
 :: ERROR: Access is denied.
