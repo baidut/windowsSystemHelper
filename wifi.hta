@@ -48,6 +48,10 @@
           }
         });
 
+        $("#adapter-button").on('click', function(){
+          Run('Control netconnections')
+        });
+
         $('#wifi-checkbox').on('switchChange.bootstrapSwitch', function(event, state) {
           if (state) {
             // alert('turn on wifi');
@@ -128,6 +132,17 @@
         <hr />
 
         <input type="checkbox" name="my-checkbox" id="wifi-checkbox">
+        
+        <!-- 更改适配器设置/Change adapter settngs -->
+        <button class="btn btn-default" type="button" id="adapter-button">
+          <i class="fa fa-gears"></i>
+        </button>
+
+        <!-- 帮助 -->
+        
+        <a href="https://github.com/baidut/PCT001/issues/7" class="btn btn-default" type="button" id="adapter-button">
+          <i class="fa fa-question"></i>
+        </a>
       </form>
 
     </div>
