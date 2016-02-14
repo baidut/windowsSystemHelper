@@ -31,8 +31,3 @@ var oShell = new ActiveXObject("Shell.Application");
 // Invoke the execute method.  
 oShell.ShellExecute(commandtoRun, commandParms, "", "open", "1"); // 
 }
-
-// bootstrap-switch
-$(document).ready(function(){
-  $("[name='my-checkbox']").bootstrapSwitch();
-});

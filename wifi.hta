@@ -12,23 +12,12 @@
      SCROLL="no"
      SINGLEINSTANCE="yes"
     >
-    
+
     <script src="assets/js/jquery.min.js"></script>
 
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">    
-    <script src="assets/js/bootstrap.min.js"></script>
+    <link href="assets/css/common.css" rel="stylesheet">
+    <script src="assets/js/common.js"></script>
 
-    <link href="assets/css/bootstrap-switch.css" rel="stylesheet">
-    <script src="assets/js/bootstrap-switch.js"></script>
-
-
-    <!-- fontawesome -->
-    <!-- https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css -->
-    <!-- https://fortawesome.github.io/Font-Awesome/icons/ -->
-    <link rel="stylesheet" href="assets/icon/font-awesome/css/font-awesome.min.css">
-    
-    <link rel="stylesheet" href="assets/css/bootswatch.com/custom.min.css">
-    <script src="assets/js/core.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
         window.resizeTo(300,290);
@@ -73,9 +62,10 @@
             // netsh wlan start hostednetwork
             // pause
             Run(
-              'cmd /K netsh wlan set hostednetwork mode=allow &' +
-              'netsh wlan set hostednetwork ssid="'+ssid+'" key="'+key+'" &'+
-              'netsh wlan start hostednetwork'
+              'cmd /K netsh wlan set hostednetwork mode=allow'
+              + ' & netsh wlan set hostednetwork ssid="'+ssid+'" key="'+key+'"'
+              + ' & netsh wlan start hostednetwork'
+              + ' & exit'
             );
             // or call bat %1 %2
 
@@ -93,8 +83,9 @@
             // netsh wlan set hostednetwork mode=disallow
             // pause
             Run(
-              'cmd /K netsh wlan stop hostednetwork &' +
-              'netsh wlan set hostednetwork mode=disallow'
+              'cmd /K netsh wlan stop hostednetwork'
+              + ' & netsh wlan set hostednetwork mode=disallow'
+              + ' & exit'
             );
           }
         });
