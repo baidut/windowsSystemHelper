@@ -84,7 +84,8 @@
             <div class="col-lg-10 col-lg-offset-2">
               <div class="btn-group btn-group-justified">
                 <!-- open file -->
-                <button class="btn btn-default" onclick="Run('edit_hosts.bat')">
+                <button class="btn btn-default" onclick="Exe('edit_hosts.bat');return false">
+                <!-- 如果不return false 就会弹出ie 询问如何处理 hosts.hta -->
                   <i class="fa fa-file-o"> 编辑/open</i>
                 </button>
                 <button type="reset" class="btn btn-default">
