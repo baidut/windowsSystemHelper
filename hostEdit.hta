@@ -1,0 +1,307 @@
+<HTML>
+<HEAD>
+<TITLE>HOSTS 文件编辑器</TITLE>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<meta http-equiv="Content-Language" content="zh-CN">
+<HTA:APPLICATION ID="hostedit"
+APPLICATIONNAME="hostedit"
+BORDER="thick"
+BORDERSTYLE="normal"
+CAPTION="yes"
+ICON="C:\WINDOWS\system32\rasphone.exe" 
+MAXIMIZEBUTTON="yes"
+MINIMIZEBUTTON="yes"
+SHOWINTASKBAR="yes"
+SINGLEINSTANCE="yes"
+SYSMENU="yes"
+VERSION="1.0"
+WINDOWSTATE="normal" />
+<script language="JScript">
+window.onerror = function ()
+{
+	window.alert("程序发生了未知错误，当前窗口将被关闭！");
+	window.close();
+	return true;
+}
+var windowW=450;	//窗体宽
+var windowH=200;	//窗体高
+var canresize=false;//是否可以改变大小
+var windowW2=windowW;//编辑时窗体宽
+var windowH2=200;//编辑时窗体高
+window.resizeTo(windowW,windowH);
+//window.moveTo((screen.width-windowW)/2,(screen.height-windowH)/2);
+window.onresize=function(){if(!canresize)window.resizeTo(windowW,windowH);}
+function init()
+{
+	var ui_table = document.getElementById('UI_TABLE');
+	var bestHeight = 70+ui_table.scrollHeight;
+	if(bestHeight > screen.height) bestHeight = screen.height;
+	window.resizeTo(windowW, bestHeight);
+	//window.moveTo((screen.width-windowW)/2,(screen.height-bestHeight)/2);
+}
+var hostfile = '\\drivers\\etc\\hosts';
+function getlist(){
+	var html='';
+	var ids='';
+	var i=1;
+	FSO = new ActiveXObject("Scripting.FileSystemObject");
+	var spath = FSO.GetSpecialFolder(1)+hostfile;
+	host = FSO.OpenTextFile(spath, 1, false);
+	while(!host.AtEndOfStream){
+	     tmp = host.ReadLine();
+	     if(/^#?\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\s+([a-zA-Z0-9\-]+\.[a-zA-Z0-9\-]+(\.(com|net|org|edu|info|biz|cc|tv|gov|mobi|name|cn|en|us|hk|tw))+)$/.test(tmp))
+	     {
+		as=tmp.replace(/\s+/,'|:|').split('|:|');
+		ids+='['+i+'],';
+		if(/^\#/.test(as[0])){
+			zt = '外网';
+			ip = as[0].replace(/^\#/,'');
+			co = '#eee!important';
+			cz = '<a href="#" style="color:red;" onclick="zh('+i+',0);">切本地</a> | <a href="#" style="color:red;" onclick="ed(this,'+i+');">编辑</a> | <a href="#" style="color:red;" onclick="zh('+i+',2);">删除</a>';
+
+		}else{
+			zt = '本地';
+			ip = as[0];
+			co = '#fff!important';
+			cz = '<a href="#" onclick="zh('+i+',1);">切外网</a> | <a href="#" style="color:red;" onclick="ed(this, '+i+');">编辑</a> | <a href="#" style="color:red;" onclick="zh('+i+',2);">删除</a>';	
+		}
+
+			html += '<tr><td style="background:'+co+';">'+zt+'</td><td style="background:'+co+';text-align:left;text-indent:6px;">'+as[1]+'</td><td style="text-align:left;text-indent:6px;background:'+co+';">'+ip+'</td><td style="background:'+co+';">'+cz+'</td></tr>';
+		}
+		i++;
+	}
+	var o=document.getElementById('ids');
+	o.value=ids;
+	host.Close();
+	return html;
+}
+
+function ed(eo, iId){	
+	document.getElementById('editId').value=iId;
+	document.getElementById('pIP').value=eo.parentElement.parentElement.children[2].innerText;
+	document.getElementById('pURL').value=eo.parentElement.parentElement.children[1].innerText;
+	document.getElementById('addButt').style.display='none';
+	document.getElementById('editButt').style.display='inline';
+	document.getElementById('HostList').style.display='none';
+	document.getElementById('addHost').style.display='block';
+	window.resizeTo(windowW2,windowH2);
+}
+
+function edits(sIp, sUrl){
+	var oi=document.getElementById(sIp);
+	var ou=document.getElementById(sUrl);
+	if(oi.value=='' || /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(oi.value)==false) {
+		alert('IP地址不能为空或你输入的IP格式错误.');
+		oi.focus();
+		return;
+	}
+	if(ou.value=='' || /^[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-]+(\.(com|net|org|edu|info|biz|cc|tv|gov|mobi|name|cn|en|us|hk|tw))+$/.test(ou.value)==false) {
+		alert('域名不能为空或你输入的域名格式错误.');
+		ou.focus();
+		return;
+	}
+	var iId = document.getElementById('editId').value;
+	var body='';
+	var i=1;
+	FSO = new ActiveXObject("Scripting.FileSystemObject");
+	var spath = FSO.GetSpecialFolder(1)+hostfile;	
+	host = FSO.OpenTextFile(spath, 1, false);
+	while(!host.AtEndOfStream){
+		tmp = host.ReadLine();
+		if(i==iId)
+		{
+			body+=oi.value+"\t"+ou.value+"\n";
+		}
+		else{
+			body+=tmp+"\n";
+		}
+		i++;
+	}
+	host.close();
+	svf = FSO.OpenTextFile(spath, 2, false);
+	svf.Write(body);
+	svf.close();
+	window.location.reload();
+}
+
+function zh(irs,stype)
+{
+	var body='';
+	var i=1;
+	FSO = new ActiveXObject("Scripting.FileSystemObject");
+	var spath = FSO.GetSpecialFolder(1)+hostfile;	
+	host = FSO.OpenTextFile(spath, 1, false);
+	while(!host.AtEndOfStream){
+		tmp = host.ReadLine();
+		if(i==irs)
+		{
+			if(stype==0){
+				body+=tmp.replace(/^\#/,'');
+				body+="\n";
+			}else if(stype==1){
+				if(/^\#/.test(tmp)){
+					body+=tmp+"\n";
+				}else{
+					body+='#'+tmp +"\n";
+				}
+			}else{
+
+			}
+		}
+		else{
+			body+=tmp+"\n";
+		}
+		i++;
+	}
+	host.close();
+	svf = FSO.OpenTextFile(spath, 2, false);
+	svf.Write(body);
+	svf.close();
+	window.location.reload();
+}
+
+function zhall(stype)
+{
+	var body='';
+	var i=1;
+	var ids1=document.getElementById("ids").value;
+	if(ids1=='') return;
+	FSO = new ActiveXObject("Scripting.FileSystemObject");
+	var spath = FSO.GetSpecialFolder(1)+hostfile;	
+	host = FSO.OpenTextFile(spath, 1, false);
+	while(!host.AtEndOfStream){
+		tmp = host.ReadLine();
+		if(stype==0 && ids1.indexOf('['+i+'],')!== -1){
+			body+=tmp.replace(/^\#/,'');
+			body+="\n";
+		}else if(stype==1 && ids1.indexOf('['+i+'],')!== -1){
+			if(/^\#/.test(tmp)){
+				body+=tmp+"\n";
+			}else{
+				body+='#'+tmp +"\n";
+			}
+		}else{
+			body+=tmp+"\n";
+		}
+		i++;
+	}
+	host.close();
+	svf = FSO.OpenTextFile(spath, 2, false);
+	svf.Write(body);
+	svf.close();
+	window.location.reload();
+}
+
+function AddHosts(sIp, sUrl){
+	var oi=document.getElementById(sIp);
+	var ou=document.getElementById(sUrl);
+	if(oi.value=='' || /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(oi.value)==false) {
+		alert('IP地址不能为空或你输入的IP格式错误.');
+		oi.focus();
+		return;
+	}
+	if(ou.value=='' || /^[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-]+\.((net)|(com)|(cn)|(org)|(cc)|(tv))$/.test(ou.value)==false) {
+		alert('域名不能为空或你输入的域名格式错误.');
+		ou.focus();
+		return;
+	}
+
+	FSO = new ActiveXObject("Scripting.FileSystemObject");
+	var spath = FSO.GetSpecialFolder(1)+hostfile;	
+	host = FSO.OpenTextFile(spath, 8, false);
+	host.Write("\n"+oi.value+"\t"+ou.value+"\n");
+	host.close();
+	alert('增加域名成功!');
+	window.location.reload();
+}
+</script>
+<style>
+body{
+ background-color:#99CCFF;
+}
+body *{
+	font-size:12px;
+	margin:0px;
+	padding:0px;
+}
+.BUTT{
+	BORDER: #2C59AA 1px solid;
+	FONT-SIZE: 12px;
+	COLOR: black;
+	FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#C3DAF5);
+	height:22px;
+	padding: 3px 5px 0px;
+	text-decoration: none;
+}
+.edit{
+   BORDER: #2C59AA 1px solid;
+   padding:1px;
+}
+#UI_TABLE{
+	width:99%;cell-spacing:0px; margin:1px; border-collapse:collapse; border:1px solid #7d7d7d;
+}
+#UI_TABLE tr.TopTitle{
+	text-align:center;
+}
+#UI_TABLE tr.TopTitle td {
+	background-color:#C8E2F7;
+}
+#UI_TABLE tr td{
+	border:1px solid #7d7d7d;text-align:center;padding:1px;
+}
+
+</style>
+</HEAD>
+<BODY  onLoad="init()" oncontextmenu="return false;" style="text-align:center; margin:0px;overflow-y:auto;overflow-x:hidden;border:none;background:menu;">
+<div id="HostList">
+	<input type="hidden" name="ids"/>
+	<table id="UI_TABLE" >
+		<tr class="TopTitle">
+			<td>状态</td>
+			<td style="width:140px;">域名</td>
+			<td>IP地址</td>
+			<td style="width:140px;">操作</td>	
+		</tr>
+		<script language="javascript" type="text/JavaScript">
+			   document.writeln(getlist());
+		</script>
+	</table>
+	<div style="margin:6px;text-align:center;">
+		<input type="button" value="全部切本地" name="b4" onclick="zhall(0);" class="BUTT" />&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="button" value="全部切外网" name="b5" onclick="zhall(1);" class="BUTT" />&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="button" value="增加域名" name="b6" onclick="document.getElementById('HostList').style.display='none';document.getElementById('addHost').style.display='block'; window.resizeTo(windowW2,windowH2);" class="BUTT" />
+	</div>
+</div>
+<div id="addHost" style="display:none;">
+	<input type="hidden" name="editId" name="editId" />
+	<div style="text-align:left;margin:30px auto 0px; width:300px;">IP地址：<input type="text" name="pIP" id="pIP" class="edit" />&nbsp;&nbsp;<input type="button" value="127.0.0.1" name="b2" onclick="document.getElementById('pIP').value='127.0.0.1';" class="BUTT" /></div>
+	<div style="text-align:left;margin:20px auto; width:300px;">域&nbsp;&nbsp;名：<input type="text" name="pURL" id="pURL" class="edit" /></div>
+	<div style="margin:10px;text-align:center;">
+		<input type="button" value="提  交" name="b1" id="addButt" onclick="AddHosts('pIp','pURL');" class="BUTT" />&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="button" value="编  辑" name="b2" id="editButt" style="display:none;" onclick="edits('pIp','pURL');" class="BUTT" />&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="button" value="返  回" name="b3" onclick="window.location.reload();" class="BUTT" />
+	</div>
+</div>
+
+
+<script>
+//屏蔽部分键盘操作,比如 F5
+function document.onkeydown()
+{wek=window.event.keyCode;
+if((window.event.altKey)&&((wek==37)||(wek==39)))
+{window.alert("Error:Invalid operation!");event.returnValue=false;}
+if((wek==116)||(event.ctrlKey&&wek==82))
+{window.event.keyCode=0;event.returnValue=false;}
+if((event.ctrlKey)&&(wek==78))
+event.returnValue=false;
+if((event.shiftKey)&&(wek==121))
+event.returnValue=false;
+if(window.event.srcElement.tagName=="A"&&window.event.shiftKey)
+window.event.returnValue=false;
+if((window.event.altKey)&&(wek==115))
+{window.showModelessDialog("about:blank","","dialogWidth:1px;dialogheight:1px");return false;}
+if(wek==122){window.event.keyCode=0;window.alert("Error:Invalid operation!");return false;}
+}
+</script>
+</BODY>
+</HTML>
