@@ -41,11 +41,11 @@
             </label>
             <div class="col-lg-10">
               <select class="form-control" id="select">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+                <option value="https://raw.githubusercontent.com/racaljk/hosts/master/hosts">racaljk/hosts</option>
+                <option value="http://baidut.github.io/GoHosts/hosts.txt">baidut/GoHosts</option>
+                <option>回滚上次的hosts文件/revoke to last hosts file</option>
+                <option>hosts备份-2016-02-15</option>
+                <option>hosts备份-2015-02-15</option>
               </select>
             </div>
           </div>
@@ -84,7 +84,7 @@
             <div class="col-lg-10 col-lg-offset-2">
               <div class="btn-group btn-group-justified">
                 <!-- open file -->
-                <button class="btn btn-default" onclick="Exe('edit_hosts.bat');return false">
+                <button class="btn btn-default" onclick="Exe('bat\\edit_hosts.bat');return false"> 
                 <!-- 如果不return false 就会弹出ie 询问如何处理 hosts.hta -->
                   <i class="fa fa-file-o"> 编辑/open</i>
                 </button>

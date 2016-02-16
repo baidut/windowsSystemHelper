@@ -18,6 +18,8 @@ function Run(strPath) {
   catch (e){alert('找不到文件"'+strPath+'"(或它的组件之一)。请确定路径和文件名是否正确，而且所需的库文件均可用。')
  }
 }
+// 不在当前路径的程序需要用Exe
+// 此外，路径要用\\不能用/
 function Exe(Path) {
     Run('%SystemRoot%\\explorer.exe \"'+Path+'\"');
 }
