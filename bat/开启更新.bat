@@ -1,0 +1,2 @@
+sc start wuauserv
+pause
